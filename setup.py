@@ -3,14 +3,14 @@ from setuptools import setup
 
 setup(
     name = 'zabbix',
-    version = '0.0.1',
+    version = '0.0.2',
     author = 'Erik Stephens',
     author_email = 'erik@tfks.net',
     description = 'A Pythonic interface to the Zabbix API',
     license = 'MIT',
     keywords = 'zabbix api',
     url = 'http://github.com/erik-stephens/zabbix',
-    packages = ['zabbix', 'zabbix.objects'],
+    packages = ['zabbix', 'zabbix.objects', 'tests'],
     long_description = open('README.rst').read(),
     classifiers = [
         'Development Status :: 3 - Alpha',
