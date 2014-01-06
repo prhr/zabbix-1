@@ -5,6 +5,7 @@
 
 # IPython Notebook
 .ipynb_checkpoints
+*.ipynb
 
 # Packages
 *.egg

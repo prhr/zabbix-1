@@ -10,7 +10,7 @@ setup(
     license = 'MIT',
     keywords = 'zabbix api',
     url = 'http://github.com/erik-stephens/zabbix',
-    packages = ['zabbix'],
+    packages = ['zabbix', 'zabbix.objects'],
     long_description = open('README.rst').read(),
     classifiers = [
         'Development Status :: 3 - Alpha',
