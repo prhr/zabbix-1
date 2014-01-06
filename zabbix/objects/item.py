@@ -20,6 +20,10 @@ class Item(ApiObject):
         pass
 
 
+    def __repr__(I):
+        return "{}[{}]".format(I.__class__.__name__, I.key_.val)
+
+
     PROPS = dict(
         itemid = dict(
             doc = "ID of the item.",

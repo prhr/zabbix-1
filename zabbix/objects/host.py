@@ -17,7 +17,6 @@ class Host(ApiObject):
             output = 'extend',
             filter = dict(name=name),
             selectGroups = True,
-            selectItems = True,
         )
         result = api.response('host.get', **params).get('result')
         if not result:
@@ -26,23 +25,31 @@ class Host(ApiObject):
 
 
     def process_refs(I, attrs):
-        I.groups = {}
+        I._items = None
+        I._groups = {}
         if 'groups' in attrs:
             for group in attrs['groups']:
-                I.groups[group['name']] = HostGroup(I._api, **group)
-
-        I.items = {}
-        if 'items' in attrs:
-            for item in attrs['items']:
-                I.items[item['key_']] = Item(I._api, **item)
+                I._groups[group['name']] = HostGroup(I._api, **group)
                 
 
+    @property
+    def groups(I):
+        """
+        Map[HostGroup.name -> HostGroup] of associated `HostGroups`.
+        """
+        return I._groups
+
+
+    @property
     def items(I):
         """
-        List of associated `Items`.
+        Map[Item.key -> Item] of associated `Items`.
         """
-        return [Item(I._api, **item) for item in
-                I._api.response('item.get', output='extend', hostids=I.id).get('result')]
+        if I._items is None:
+            I._items = {}
+            for item in I._api.response('item.get', output='extend', hostids=I.id).get('result'):
+                I._items[item['key_']] = Item(I._api, **item)
+        return I._items
 
 
     def triggers(I):
@@ -51,6 +58,9 @@ class Host(ApiObject):
         """
         return [Trigger(I._api, **trigger) for trigger in
                 I._api.response('trigger.get', output='extend', hostids=I.id).get('result')]
+
+    def __repr__(I):
+        return "{}[{}]".format(I.__class__.__name__, I.name.val)
 
 
     PROPS = dict(

@@ -30,12 +30,12 @@ class HostGroup(ApiObject):
                 I.hosts[host['name']] = Host(I._api, **host)
 
 
-    def hosts(I):
-        """
-        List of `Hosts` in this group.
-        """
-        return [Host(I._api, **host) for host in
-                I._api.response('host.get', output='extend', groupids=I.id).get('result')]
+    # def hosts(I):
+    #     """
+    #     List of `Hosts` in this group.
+    #     """
+    #     return [Host(I._api, **host) for host in
+    #             I._api.response('host.get', output='extend', groupids=I.id).get('result')]
 
 
     def add_host(I, host):
@@ -49,6 +49,10 @@ class HostGroup(ApiObject):
         reply = I._api.response('host.massadd', **params)
 
         return [host.id] == reply['result'].get('hostids', [])
+
+
+    def __repr__(I):
+        return "{}[{}]".format(I.__class__.__name__, I.name.val)
 
 
     PROPS = dict(
