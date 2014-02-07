@@ -73,7 +73,7 @@ def test_type_ts1():
         api.mock_reply(result=[{"hostid":"45","name":"MyHost","errors_from":"1388867607"}])
         host = Host.by_name(api, 'MyHost')
         assert isinstance(host.errors_from.val, datetime)
-        assert host.errors_from.val == datetime(2014, 1, 4, 13, 33, 27)
+        assert host.errors_from.val == datetime(2014, 1, 4, 20, 33, 27)
 
 
 def test_id1():

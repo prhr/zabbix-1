@@ -163,7 +163,7 @@ class Property(object):
         I.name = name
         I.__doc__ = doc
         if kind == datetime:
-            I._xforms = [int, datetime.fromtimestamp]
+            I._xforms = [int, datetime.utcfromtimestamp]
         else:
             I._xforms = [kind]
         I.kind = kind
