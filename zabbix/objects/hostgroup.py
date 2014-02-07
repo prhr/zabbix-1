@@ -8,6 +8,18 @@ class HostGroup(ApiObject):
     """
 
     @classmethod
+    def create(C, api, name):
+        """
+        Return id of new `HostGroup` with given `name`.
+        """
+        params = dict(
+            name = name,
+        )
+        result = api.response('hostgroup.create', **params).get('result')
+        return result.get('groupids')[0]
+
+
+    @classmethod
     def by_name(C, api, name):
         """
         Return a new `HostGroup` with matching `name`.
