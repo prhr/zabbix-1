@@ -1,6 +1,12 @@
 zabbix
 ======
 
+Home page: https://github.com/erik-stephens/zabbix 
+ 
+.. image:: https://api.travis-ci.org/erik-stephens/zabbix.png?branch=master,develop
+   :target: http://travis-ci.org/erik-stephens/zabbix
+ 
+
 Pythonic interface to Zabbix API with the following goals:
 
 - Be self-documenting.  Should not have to flip between the Zabbix API
