@@ -182,7 +182,7 @@ class Property(object):
         return str(unicode(I))
 
     def __repr__(I):
-        return I.val
+        return str(I.val)
 
 
     def _repr_html_(I):
