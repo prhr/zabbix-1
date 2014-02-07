@@ -8,6 +8,13 @@ class Item(ApiObject):
     [Zabbix Item](https://www.zabbix.com/documentation/2.2/manual/api/reference/item/object)
     """
 
+    # See `value_type` property
+    TYPE_FLOAT = 0
+    TYPE_CHAR  = 1
+    TYPE_LOG   = 2
+    TYPE_INT   = 3
+    TYPE_TEXT  = 4
+
     def hosts(I):
         """
         List of `Hosts` with this item.
@@ -16,12 +23,39 @@ class Item(ApiObject):
                 I._api.response('host.get', itemids=I.id).get('result')]
 
 
-    def history(I):
-        pass
+    def get_history(I, ts_from=None, ts_to=None, limit=10):
+        """
+        Return latest `limit` (ts, val) pairs from `ts_from` until `ts_to`.
+        """
+        params = dict(
+            output = 'extend',
+            history = I.value_type.val,
+            itemids = I.id,
+            limit = limit,
+            sortfield = 'clock',
+            sortorder = 'DESC',
+        )
+        if ts_from:
+            params['time_from'] = ts_from.strftime('%s')
+        if ts_to:
+            params['time_till'] = ts_to.strftime('%s')
+        return [(i['clock'], I._typed_value(i['value'])) for i in
+                I._api.response('history.get', **params).get('result')]
 
 
     def __repr__(I):
         return "{}[{}]".format(I.__class__.__name__, I.key_.val)
+
+
+    def _typed_value(I, val):
+        """
+        Return `val` with proper type based on this Item's `value_type`.
+        """
+        if I.value_type.val == I.TYPE_FLOAT:
+            val = float(val)
+        elif I.value_type.val == I.TYPE_INT:
+            val = int(val)
+        return val
 
 
     PROPS = dict(
